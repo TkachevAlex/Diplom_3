@@ -1,5 +1,4 @@
 import allure
-from locators import ProfilePageLocators, LoginPageLocators
 from pages.login_page import LoginPage
 from pages.main_page import MainPage
 from pages.profile_page import ProfilePage
@@ -13,7 +12,7 @@ class TestProfilePage:
         main_page.go_to_profile()
 
         profile_page = ProfilePage(driver)
-        assert profile_page.check_is_visible_element(ProfilePageLocators.PROFILE_INFO)
+        assert profile_page.check_visible_profile_info()
 
     @allure.title('Проверка перехода в раздел «История заказов»')
     def test_go_to_story_order(self, driver, login_user):
@@ -23,7 +22,7 @@ class TestProfilePage:
 
         profile_page = ProfilePage(driver)
         profile_page.go_to_orders_history()
-        assert profile_page.check_is_visible_element(ProfilePageLocators.ORDERS_HISTORY_LIST)
+        assert profile_page.check_visible_order_history()
 
     @allure.title('Проверка выхода из аккаунта')
     def test_exit_from_profile(self, driver, login_user):
@@ -34,4 +33,4 @@ class TestProfilePage:
         profile_page.logout()
 
         login_page = LoginPage(driver)
-        assert login_page.check_is_visible_element(LoginPageLocators.LOGIN_FORM)
+        assert login_page.check_visible_login_form()

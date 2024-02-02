@@ -3,6 +3,7 @@ from selenium import webdriver
 import utils
 import requests
 from pages.login_page import LoginPage
+from pages.main_page import MainPage
 from urls import Url
 
 
@@ -36,4 +37,5 @@ def user_data():
 
 @pytest.fixture()
 def login_user(driver, user_data):
+    MainPage(driver).enter_in_account()
     LoginPage(driver).login_user(user_data)

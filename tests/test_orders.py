@@ -1,5 +1,4 @@
 import allure
-from locators import OrdersPageLocators
 from pages.main_page import MainPage
 from pages.order_feed_page import OrderFeedPage
 from pages.profile_page import ProfilePage
@@ -14,7 +13,7 @@ class TestOrders:
 
         order_feed_page = OrderFeedPage(driver)
         order_feed_page.open_order()
-        assert order_feed_page.check_is_visible_element(OrdersPageLocators.MODAL_WINDOW)
+        assert order_feed_page.check_visible_order_window()
 
     @allure.title('Проверка, что заказы пользователя из раздела «История заказов» отображаются на странице «Лента заказов»')
     def test_orders_in_orders_history_is_on_order_feed_page(self, driver, login_user):
@@ -36,13 +35,13 @@ class TestOrders:
         main_page.go_to_orders_feed_page()
 
         order_page = OrderFeedPage(driver)
-        all_orders_before = order_page.get_value_from_element(OrdersPageLocators.ALL_ORDERS_COUNT)
+        all_orders_before = order_page.get_all_orders_count()
         order_page.go_to_main_page()
 
         main_page.create_order()
         main_page.go_to_orders_feed_page()
 
-        all_orders_after = order_page.get_value_from_element(OrdersPageLocators.ALL_ORDERS_COUNT)
+        all_orders_after = order_page.get_all_orders_count()
         assert int(all_orders_before) < int(all_orders_after)
 
     @allure.title('Проверка, что при создании нового заказа счётчик Выполнено за сегодня увеличивается')
@@ -51,17 +50,17 @@ class TestOrders:
         main_page.go_to_orders_feed_page()
 
         order_page = OrderFeedPage(driver)
-        today_orders_before = order_page.get_value_from_element(OrdersPageLocators.TODAY_ORDERS_COUNT)
+        today_orders_before = order_page.get_today_orders_count()
         order_page.go_to_main_page()
 
         main_page.create_order()
         main_page.go_to_orders_feed_page()
 
-        today_orders_after = order_page.get_value_from_element(OrdersPageLocators.TODAY_ORDERS_COUNT)
+        today_orders_after = order_page.get_today_orders_count()
         assert int(today_orders_before) < int(today_orders_after)
 
     @allure.title('Проверка, что после оформления заказа его номер появляется в разделе В работе')
-    def test(self, driver, login_user):
+    def test_order_number_is_order_in_work(self, driver, login_user):
         main_page = MainPage(driver)
         order = main_page.create_order()
         main_page.go_to_orders_feed_page()
